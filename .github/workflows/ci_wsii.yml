@@ -18,36 +18,4 @@ jobs:
         with:
             image: ${{ secrets.IMAGE }}
             run: |
-                PORT=${{matrix.Port}} timeout 180m node server.js
-                echo $?
-
- server-control:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-         Port: [10016, 10017, 10018, 10019, 10020]
-    timeout-minutes: 360
-    steps:
-      - uses: actions/checkout@v2
-        name: Server build start on Port ${{matrix.Port}}
-      - name: Run the Server build process
-        uses: addnab/docker-run-action@v3
-        with:
-            image: ${{ secrets.IMAGE }}
-            run: |
-                PORT=${{matrix.Port}} timeout 180m node server.js
-                echo $?
-
- clean-server:
-    runs-on: ubuntu-latest
-    if: always()
-    needs: [server-control, node-server-build]
-    timeout-minutes: 360
-    steps:
-      - name: Server Clean
-        uses: addnab/docker-run-action@v3
-        with:
-            image: ${{ secrets.CRIMAGE }}
-            run: |
-                KEY="${{ secrets.CRKEY}}" ./start.sh
+                echo hello world
